@@ -1,0 +1,134 @@
+<style>
+
+    .money_receipt h2{
+        font-size:18px;
+        margin:0;
+        font-weight:bold;
+        font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+    }
+    .money_receipt h3{
+        font-size:12px;
+        margin:3px 0;
+        font-weight:700;
+        font-family:"Comic Sans MS", cursive;
+    }
+    .money_receipt table tr td {
+        border:none !important;
+        padding:4px 0 0 80px !important;
+        text-align:left !important;
+        color:#000;
+    }
+    .money_receipt table h4{
+        font-size:15px;
+        margin:3px 0;
+        font-weight:700;
+        font-family:"Comic Sans MS", cursive;
+    }
+    .money_receipt table h3{
+        font-size:15px;
+        margin:3px 0;
+        padding:0px 0 0 20px;
+        font-weight:700;
+        font-family:"Comic Sans MS", cursive;
+    }
+    .money_receipt table h5{
+        font-size:15px;
+        margin:3px 0;
+        padding:0px 0 0 0px;
+        font-weight:700;
+        font-family:"Comic Sans MS", cursive;
+    }
+</style>
+<!-- begin #content -->
+
+
+
+  <div class="row text-center">
+
+
+    <!-- start money receipt -->
+    <!-- #modal-alert -->
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h4 class="modal-title">MONEY RECEIPT</h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert money_receipt m-b-0">
+            <h2>FOOD HUT PLACE</h2>
+            <h3>MONIPUR , MIRPUR-2 <br>DHAKA </h3>
+            <h3>Phone : 01767121212, 01676152414 </h3>
+            <h3>VAT REG . NO : #23456753 </h3>
+            <h3>DATE : <%= @customer_order.created_at.strftime("%d-%m-%Y, %l:%M %P") %> </h3>
+            <h3>Voucher ID: <%= @customer_order.id %> </h3>
+            <div class="panel-body">
+              <table class="table">
+                <tbody>
+                <% if @customer_order.ordered_items.any? %>
+                    <% @customer_order.ordered_items.each do |item| %>
+                        <tr>
+                          <td>
+                            <h4>
+                            <span>
+                              <%= item.quantity %>
+                            </span>
+                              <%= item.food_sub_category.name %>
+                            </h4>
+                          </td>
+                          <td> <h4><%= item.price %></h4></td>
+                        </tr>
+                    <% end %>
+                <% end %>
+
+                <tr style="border-top:1px solid #ddd;">
+                  <td><h3>Subtotal</h3></td>
+                  <td> <h5><%= @customer_order.paid_amount+@customer_order.discount_amount %></h5></td>
+                </tr>
+                <% if @customer_order.discount_amount > 0 %>
+                    <tr>
+                      <td><h3>Discount</h3></td>
+                      <td> <h5><%= @customer_order.discount_amount %></h5></td>
+                    </tr>
+                    <tr style="border-top:1px solid #ddd;">
+                      <td><h3>Total</h3></td>
+                      <td> <h5><%= @customer_order.paid_amount %></h5></td>
+                    </tr>
+                <% end %>
+
+                <tr>
+                  <td><h3>Cash</h3></td>
+                  <td> <h5><%= @customer_order.received_amount %></h5></td>
+                </tr>
+                <tr>
+                  <td><h3>Change Due</h3></td>
+                  <td> <h5><%= @customer_order.changed_amount %></h5></td>
+                </tr>
+                <tr>
+                  <td><h3>vat 15%</h3></td>
+                  <td> <h5><%= number_to_currency((@customer_order.paid_amount+@customer_order.discount_amount)*15/115, unit: "", format: "%n %u") %></h5></td>
+                </tr>
+                </tbody>
+              </table>
+            <h6>Thank You! Please Visit Again.</h6>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+          <a href="javascript:;" class="btn btn-sm btn-success" data-dismiss="modal"><i class="fa fa-print"></i> print</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- end money receipt -->
+
+
+
+  </div>
+  <!-- end col-8 -->
+</div>
+<!-- end row -->
+
+<!-- end #content -->

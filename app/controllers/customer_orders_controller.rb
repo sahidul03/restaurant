@@ -31,7 +31,7 @@ class CustomerOrdersController < ApplicationController
           end
         end
         flash[:notice] = 'Success.'
-        redirect_to new_customer_order_path
+        redirect_to money_receipts_customer_orders_path(@customer_order)
       else
         render 'new'
       end
@@ -42,6 +42,10 @@ class CustomerOrdersController < ApplicationController
 
   end
 
+
+  def money_receipts
+    @customer_order = CustomerOrder.find(params[:id])
+  end
 
 
   protected

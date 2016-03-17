@@ -44,7 +44,11 @@ Rails.application.routes.draw do
     end
   end
   resources :sub_items
-  resources :customer_orders
+  resources :customer_orders do
+    collection do
+      get "money_receipts/:id", action: 'money_receipts', as: :money_receipts
+    end
+  end
   resources :ordered_items
 
   # Example resource route with options:
