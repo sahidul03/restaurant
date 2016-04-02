@@ -50,6 +50,12 @@ Rails.application.routes.draw do
     end
   end
   resources :ordered_items
+  resources :collection_reports do
+    collection do
+      get 'reports'
+      get 'monthly_reports'
+    end
+  end
 
   # Example resource route with options:
   #   resources :products do
